@@ -24,16 +24,25 @@ public:
 	void shiftLeft();
 	void shiftRight();
 
+	void rotateLeft();
+	void rotateRight();
+
 private:
 	Box *grid[HEIGHT][WIDTH];
 	Box *clear;
+
+	Shape currentShape;
+
+	struct {
+		int x, y;
+	} shapeOrigin;
 
 	bool collision;
 
 	bool isRowComplete(int row);
 
 	void genShape();
-	
+
 	void deleteCompletedRows();
 	void dropRow(int row);
 

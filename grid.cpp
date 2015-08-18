@@ -66,6 +66,69 @@ bool Grid :: isGameOver() {
 }
 
 /*********************************************************************
+ * Shift the falling shape left if it can without going out of bounds
+ * or conflicting with another box to the left.
+ ********************************************************************/
+void Grid :: shiftLeft() {
+	for (int y = 0; y < Grid::HEIGHT; y++)
+		for (int x = 0; x < Grid::WIDTH; x++) {
+			Box *temp = grid[y][x];
+
+			if (temp->isFalling()) {
+				if (x == 0 || !grid[y][x - 1]->isClear())
+					continue;
+				else
+					grid[y][x - 1] = temp;
+					grid[y][x] = Grid::clear;
+			}
+		}
+}
+
+/*********************************************************************
+ * Shift the falling shape right if it can without going out of bounds
+ * or conflicting with another box to the right.
+ ********************************************************************/
+void Grid :: shiftRight() {
+	for (int y = 0; y < Grid::HEIGHT; y++)
+		for (int x = Grid::WIDTH; x >= 0; x++) {
+			Box *temp = grid[y][x];
+
+			if (temp->isFalling()) {
+				if (x == Grid::WIDTH - 1 || !grid[y][x + 1]->isClear())
+					continue;
+				else
+					grid[y][x + 1] = temp;
+					grid[y][x] = Grid::clear;
+			}
+		}
+}
+
+/*********************************************************************
+ * Rotate the shape left if it can without conflicting with another
+ * block.  If the block is on a width boundary, rotating should 
+ * cause it to adjust it's location provided that it will not conflict
+ * with another block in doing so.
+ ********************************************************************/
+void Grid :: rotateLeft() {
+	//Determine the top left shape, treating the shape as a generic
+	//quadrilateral
+
+	
+
+
+}
+
+/*********************************************************************
+ * Rotate the shape right if it can without conflicting with another
+ * block. If the block is on a width boundary, rotating should 
+ * cause it to adjust it's location provided that it will not conflict
+ * with another block in doing so.
+ ********************************************************************/
+void Grid :: rotateRight() {
+
+}
+
+/*********************************************************************
  * Cause all falling blocks to fall one block.
  ********************************************************************/
 void Grid :: tick() {
@@ -132,6 +195,9 @@ void Grid :: draw(Painter p) {
  ********************************************************************/
 void Grid :: genShape() {
 	Shape newShape;
+	currentShape = newShape;
+	shapeOrigin.x = 4;
+	shapeOrigin.y = 0;
 
 	Shape::Type t = newShape.getType();
 	Shape::Rotation r = newShape.getRotation();
